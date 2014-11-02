@@ -5,6 +5,17 @@ function Vector(x, y) {
 Vector.prototype.plus = function(other) {
   return new Vector(this.x + other.x, this.y + other.y);
 };
+var directions = {
+  "n":  new Vector( 0, -1),
+  "ne": new Vector( 1, -1),
+  "e":  new Vector( 1,  0),
+  "se": new Vector( 1,  1),
+  "s":  new Vector( 0,  1),
+  "sw": new Vector(-1,  1),
+  "w":  new Vector(-1,  0),
+  "nw": new Vector(-1, -1)
+};
+
 
 function Grid(width, height) {
   this.space = new Array(width * height);
@@ -71,7 +82,6 @@ World.prototype.toString = function() {
   }
   return output;
 };
-/*
 World.prototype.turn = function() {
   var acted = [];
   this.grid.forEach(function(entity, vector){
@@ -87,18 +97,17 @@ World.prototype.letAct = function(entity, vector) {
     var dest = this.checkDestination(action, vector);
     if (dest && this.grid.get(dest) == null) {
       this.grid.set(vector, null);
-      this.grid.set(dest, critter);
+      this.grid.set(dest, entity);
     }
   }
 };
 World.prototype.checkDestination = function(action, vector) {
-  if (direction.hasOwnProperty(action.direction)) {
-    var dest = vector.plus(direction[action.direction]);
+  if (directions.hasOwnProperty(action.direction)) {
+    var dest = vector.plus(directions[action.direction]);
     if (this.grid.isInside(dest))
       return dest;
   } 
 };
-
 
 
 function View(world, vector) {
@@ -110,6 +119,7 @@ View.prototype.look = function(dir) {
   if (this.world.grid.isInside(target)){
     var element = this.world.grid.get(target);
     return (element == null) ? " " : element.originChar;
+  }
 };
 View.prototype.findAll = function(ch) {
   var found = [];
@@ -124,18 +134,7 @@ View.prototype.find = function(ch) {
   return randomElement(found);
 };
 
-*/
 
-var directions = {
-  "n":  new Vector( 0, -1),
-  "ne": new Vector( 1, -1),
-  "e":  new Vector( 1,  0),
-  "se": new Vector( 1,  1),
-  "s":  new Vector( 0,  1),
-  "sw": new Vector(-1,  1),
-  "w":  new Vector(-1,  0),
-  "nw": new Vector(-1, -1)
-};
 
 
 function randomElement(array) {
